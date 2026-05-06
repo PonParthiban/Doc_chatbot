@@ -5,10 +5,12 @@ Main entry point for the production backend
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from config import Config
 from models import AskRequest, AskResponse, SourceMetadata, ErrorResponse
@@ -155,6 +157,27 @@ async def http_exception_handler(request, exc):
             "error_code": exc.headers.get("X-Error-Code", "UNKNOWN") if exc.headers else "UNKNOWN",
         },
     )
+
+
+# ========================================
+# Static Files (Frontend)
+# ========================================
+
+# Mount static files directory to serve frontend
+# This must be mounted after all other routes to avoid conflicts
+current_dir = Path(__file__).parent
+static_dir = current_dir
+
+# Check if frontend files exist
+if (static_dir / "index.html").exists():
+    app.mount(
+        "/",
+        StaticFiles(directory=str(static_dir), html=True),
+        name="static",
+    )
+    logger.info(f"✓ Static files mounted from {static_dir}")
+else:
+    logger.warning(f"Frontend files not found in {static_dir}")
 
 
 if __name__ == "__main__":
