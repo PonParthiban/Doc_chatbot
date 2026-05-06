@@ -132,20 +132,6 @@ async def ask_question(request: AskRequest) -> AskResponse:
         )
 
 
-@app.get("/")
-async def root():
-    """Root endpoint with API info"""
-    return {
-        "service": "RAG API",
-        "version": "1.0.0",
-        "endpoints": {
-            "health": "GET /health",
-            "ask": "POST /ask",
-            "docs": "GET /docs",
-        },
-    }
-
-
 # Global exception handler
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):

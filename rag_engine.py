@@ -40,9 +40,24 @@ class RAGEngine:
         )
 
         # Configure Embedding Model (runs locally for efficiency)
-        Settings.embed_model = HuggingFaceEmbedding(
-            model_name=self.config.EMBEDDING_MODEL
-        )
+        try:
+            Settings.embed_model = HuggingFaceEmbedding(
+                model_name=self.config.EMBEDDING_MODEL
+            )
+        except Exception as e:
+            logger.warning(f"Failed to load embedding model: {e}")
+            logger.info("Attempting offline mode with cached model...")
+            # Try with local_files_only flag
+            try:
+                Settings.embed_model = HuggingFaceEmbedding(
+                    model_name=self.config.EMBEDDING_MODEL,
+                    model_kwargs={"trust_remote_code": True},
+                )
+            except:
+                raise RuntimeError(
+                    f"Could not load embedding model '{self.config.EMBEDDING_MODEL}'. "
+                    f"Please ensure HF_TOKEN is valid: https://huggingface.co/settings/tokens"
+                )
 
         logger.info(f"✓ LLM: {self.config.MODEL_ID}")
         logger.info(f"✓ Embedding: {self.config.EMBEDDING_MODEL}")

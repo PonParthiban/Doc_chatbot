@@ -49,12 +49,16 @@ class Config:
     # Create storage directory if it doesn't exist
     STORAGE_DIR.mkdir(exist_ok=True)
 
+    # Offline mode flag
+    OFFLINE_MODE = os.getenv("OFFLINE_MODE", "False").lower() == "true"
+
     @staticmethod
     def validate():
         """Validate that required directories exist"""
         if not Config.DATA_DIR.exists():
             raise ValueError(f"Data directory not found: {Config.DATA_DIR}")
-        print(f"✓ Config loaded: Data dir={Config.DATA_DIR}, Storage dir={Config.STORAGE_DIR}")
+        mode = "OFFLINE" if Config.OFFLINE_MODE else "ONLINE"
+        print(f"✓ Config loaded: Data dir={Config.DATA_DIR}, Storage dir={Config.STORAGE_DIR}, Mode={mode}")
 
 
 # Validate on import
