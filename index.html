@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Chat - Document Q&A</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>RAG Chat</h1>
+                <p class="subtitle">Ask questions about your documents</p>
+            </div>
+        </header>
+
+        <!-- Chat Container -->
+        <main class="chat-container">
+            <!-- Messages Area -->
+            <div class="messages" id="messagesContainer">
+                <!-- Welcome Message -->
+                <div class="message bot-message welcome-message">
+                    <div class="message-content">
+                        <p>👋 Welcome! I can answer questions about your documents.</p>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 8px;">Type your question below to get started.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                <span class="loading-dot"></span>
+                <span class="loading-dot"></span>
+                <span class="loading-dot"></span>
+                <span class="loading-text">Thinking...</span>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="input-footer">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="questionInput" 
+                    class="input-field" 
+                    placeholder="Ask a question about your documents..."
+                    autocomplete="off"
+                >
+                <button id="sendButton" class="send-button" title="Send message (Enter)">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 10L18 2L10 18L8 11H2V10Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="input-hint">Press Enter or click the button to send</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
